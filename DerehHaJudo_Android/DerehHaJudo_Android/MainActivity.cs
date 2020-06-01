@@ -312,29 +312,25 @@ namespace DerehHaJudo_Android
                 case "עידו":
                     CurrNumber = "0542077344";
                     Toasty.Info(this, "עידו " + CurrNumber, 3, true).Show();
-                    c = true;
                     break;
                 case "נועם":
                     CurrNumber = "0546544244";
                     Toasty.Info(this, " נועם" + CurrNumber, 3, true).Show();
-                    c = true;
                     break;
                 case "נתי":
                     CurrNumber = "0547682373";
                     Toasty.Info(this, "נתי " + CurrNumber, 3, true).Show();
-                    c = true;
                     break;
                 case "יוליה":
                     CurrNumber = "0545492383";
                     Toasty.Info(this, "יוליה " +  CurrNumber, 3, true).Show();
-                    c = true;
                     break;
                 case "אורי":
                     CurrNumber = "0542150457";
                     Toasty.Info(this, "אורי " + CurrNumber, 3, true).Show();
-                    c = true;
                     break;
                 default:
+                    Toasty.Error(this, "אנא בחר מאמן", 5, false).Show();
                     c = false;
                     break;
             }
@@ -343,6 +339,7 @@ namespace DerehHaJudo_Android
         bool c = true;
         private void SendButton_Click(object sender, EventArgs e)
         {
+            CurrNumber = "000";
             if (Validinput() && c)
             {
                 if (!CB1.Checked || !CB2.Checked)
