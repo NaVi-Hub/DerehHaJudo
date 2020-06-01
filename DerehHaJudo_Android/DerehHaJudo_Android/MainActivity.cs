@@ -13,6 +13,8 @@ using Android.Content;
 using System;
 using Android.Icu.Text;
 using Org.Apache.Http.Impl.Client;
+using Android.Views;
+using System.Linq;
 
 namespace DerehHaJudo_Android
 {
@@ -31,6 +33,7 @@ namespace DerehHaJudo_Android
             trainers.Add("נועם");
             trainers.Add("נתי");
             trainers.Add("יוליה");
+            trainers.Add("אורי");
             BuildScreen();
         }
         #region RuntimePermissions
@@ -257,6 +260,7 @@ namespace DerehHaJudo_Android
                 LayoutParameters = WrapContParams,
                 Orientation = Orientation.Horizontal
             };
+            SpinnerLayout.SetGravity(GravityFlags.Right);
             //
             var adapter = new ArrayAdapter<String>(this, Android.Resource.Layout.SimpleSpinnerItem, trainers);
             adapter.SetDropDownViewResource(Android.Resource.Layout.SimpleSpinnerDropDownItem);
@@ -276,6 +280,8 @@ namespace DerehHaJudo_Android
                 LayoutParameters = WrapContParams,
                 Orientation = Orientation.Vertical,
             };
+            SendButtonLayout.SetGravity(GravityFlags.Right);
+            //
             SendButton = new Button(this)
             {
                 Text = "שליחה",
@@ -296,44 +302,47 @@ namespace DerehHaJudo_Android
             OAlayout.AddView(SpinnerLayout);
             OAlayout.AddView(SendButtonLayout);
         }
-
         private void TrainersSpinner_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
         {
             Spinner spin = (Spinner)sender;
             currTrainer = spin.GetItemAtPosition(e.Position).ToString();
-        }
-
-        string currTrainer;
-        private void SendButton_Click(object sender, System.EventArgs e)
-        {
-            string number = "000";
-            bool c = true;
+            CurrLoc = spin.GetItemAtPosition(e.Position).ToString();
             switch (currTrainer)
             {
                 case "עידו":
-                    number = "0542077344";
+                    CurrNumber = "0542077344";
+                    Toasty.Info(this, "עידו " + CurrNumber, 3, true).Show();
                     break;
                 case "נועם":
-                    number = "0546544244";
+                    CurrNumber = "0546544244";
+                    Toasty.Info(this, " נועם" + CurrNumber, 3, true).Show();
                     break;
                 case "נתי":
-                    number = "0547682373";
+                    CurrNumber = "0547682373";
+                    Toasty.Info(this, "נתי " + CurrNumber, 3, true).Show();
                     break;
                 case "יוליה":
-                    number = "0545492383";
+                    CurrNumber = "0545492383";
+                    Toasty.Info(this, "יוליה " +  CurrNumber, 3, true).Show();
+                    break;
+                case "אורי":
+                    CurrNumber = "0542150457";
+                    Toasty.Info(this, "אורי " + CurrNumber, 3, true).Show();
                     break;
                 default:
                     Toasty.Error(this, "אנא בחר מאמן", 5, false).Show();
                     c = false;
                     break;
             }
+        }
+        string currTrainer, CurrNumber, CurrLoc;
+        bool c = true;
+        private void SendButton_Click(object sender, EventArgs e)
+        {
+            CurrNumber = "000";
             if (Validinput() && c)
             {
-                if (!CB1.Checked)
-                {
-                    Toasty.Error(this, "אנא סמן ווי בשתי בתיבות", 5, false).Show();
-                }
-                else if (!CB2.Checked)
+                if (!CB1.Checked || !CB2.Checked)
                 {
                     Toasty.Error(this, "אנא סמן ווי בשתי בתיבות", 5, false).Show();
                 }
@@ -350,7 +359,21 @@ namespace DerehHaJudo_Android
                     {
                         toSend += ts[i];
                     }
-                    SmsManager.Default.SendMultimediaMessage(this, null, toSend, null, null);
+                    var content = toSend;
+                    var destinationAdd = CurrNumber;
+                    SmsManager sm = SmsManager.Default;
+                    if (content.Length >= 150)
+                    {
+                        List<string> parts = new List<string>();
+                        //split the string into chunks of 20 chars.
+                        var enumerable = Enumerable.Range(0, content.Length / 20).Select(i => content.Substring(i * 20, 20));
+                        parts = enumerable.ToList();
+                        sm.SendMultipartTextMessage(destinationAdd, null, parts, null, null);
+                    }
+                    else
+                    {
+                        sm.SendTextMessage(destinationAdd, null, content, null, null);
+                    }
                     var editor = sp.Edit();
                     editor.PutString("Name", NameET.Text);
                     editor.PutString("ID", IDET.Text);
