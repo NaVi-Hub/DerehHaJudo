@@ -3145,64 +3145,85 @@ namespace DerehHaJudo_Android
 			public const int design_snackbar_background = 2131165281;
 			
 			// aapt resource value: 0x7F070062
-			public const int ic_mtrl_chip_checked_black = 2131165282;
+			public const int ic_check_white_48dp = 2131165282;
 			
 			// aapt resource value: 0x7F070063
-			public const int ic_mtrl_chip_checked_circle = 2131165283;
+			public const int ic_clear_white_48dp = 2131165283;
 			
 			// aapt resource value: 0x7F070064
-			public const int ic_mtrl_chip_close_circle = 2131165284;
+			public const int ic_error_outline_white_48dp = 2131165284;
 			
 			// aapt resource value: 0x7F070065
-			public const int mtrl_snackbar_background = 2131165285;
+			public const int ic_info_outline_white_48dp = 2131165285;
 			
 			// aapt resource value: 0x7F070066
-			public const int mtrl_tabs_default_indicator = 2131165286;
+			public const int ic_mtrl_chip_checked_black = 2131165286;
 			
 			// aapt resource value: 0x7F070067
-			public const int navigation_empty_icon = 2131165287;
+			public const int ic_mtrl_chip_checked_circle = 2131165287;
 			
 			// aapt resource value: 0x7F070068
-			public const int notification_action_background = 2131165288;
+			public const int ic_mtrl_chip_close_circle = 2131165288;
 			
 			// aapt resource value: 0x7F070069
-			public const int notification_bg = 2131165289;
+			public const int ic_warning_outline_white = 2131165289;
 			
 			// aapt resource value: 0x7F07006A
-			public const int notification_bg_low = 2131165290;
+			public const int ic_warning_white_48dp = 2131165290;
 			
 			// aapt resource value: 0x7F07006B
-			public const int notification_bg_low_normal = 2131165291;
+			public const int mtrl_snackbar_background = 2131165291;
 			
 			// aapt resource value: 0x7F07006C
-			public const int notification_bg_low_pressed = 2131165292;
+			public const int mtrl_tabs_default_indicator = 2131165292;
 			
 			// aapt resource value: 0x7F07006D
-			public const int notification_bg_normal = 2131165293;
+			public const int navigation_empty_icon = 2131165293;
 			
 			// aapt resource value: 0x7F07006E
-			public const int notification_bg_normal_pressed = 2131165294;
+			public const int notification_action_background = 2131165294;
 			
 			// aapt resource value: 0x7F07006F
-			public const int notification_icon_background = 2131165295;
+			public const int notification_bg = 2131165295;
 			
 			// aapt resource value: 0x7F070070
-			public const int notification_template_icon_bg = 2131165296;
+			public const int notification_bg_low = 2131165296;
 			
 			// aapt resource value: 0x7F070071
-			public const int notification_template_icon_low_bg = 2131165297;
+			public const int notification_bg_low_normal = 2131165297;
 			
 			// aapt resource value: 0x7F070072
-			public const int notification_tile_bg = 2131165298;
+			public const int notification_bg_low_pressed = 2131165298;
 			
 			// aapt resource value: 0x7F070073
-			public const int notify_panel_notification_icon_bg = 2131165299;
+			public const int notification_bg_normal = 2131165299;
 			
 			// aapt resource value: 0x7F070074
-			public const int tooltip_frame_dark = 2131165300;
+			public const int notification_bg_normal_pressed = 2131165300;
 			
 			// aapt resource value: 0x7F070075
-			public const int tooltip_frame_light = 2131165301;
+			public const int notification_icon_background = 2131165301;
+			
+			// aapt resource value: 0x7F070076
+			public const int notification_template_icon_bg = 2131165302;
+			
+			// aapt resource value: 0x7F070077
+			public const int notification_template_icon_low_bg = 2131165303;
+			
+			// aapt resource value: 0x7F070078
+			public const int notification_tile_bg = 2131165304;
+			
+			// aapt resource value: 0x7F070079
+			public const int notify_panel_notification_icon_bg = 2131165305;
+			
+			// aapt resource value: 0x7F07007A
+			public const int toast_frame = 2131165306;
+			
+			// aapt resource value: 0x7F07007B
+			public const int tooltip_frame_dark = 2131165307;
+			
+			// aapt resource value: 0x7F07007C
+			public const int tooltip_frame_light = 2131165308;
 			
 			static Drawable()
 			{
@@ -3743,52 +3764,61 @@ namespace DerehHaJudo_Android
 			public const int title_template = 2131230894;
 			
 			// aapt resource value: 0x7F0800AF
-			public const int top = 2131230895;
+			public const int toast_icon = 2131230895;
 			
 			// aapt resource value: 0x7F0800B0
-			public const int topPanel = 2131230896;
+			public const int toast_root = 2131230896;
 			
 			// aapt resource value: 0x7F0800B1
-			public const int touch_outside = 2131230897;
+			public const int toast_text = 2131230897;
 			
 			// aapt resource value: 0x7F0800B2
-			public const int transition_current_scene = 2131230898;
+			public const int top = 2131230898;
 			
 			// aapt resource value: 0x7F0800B3
-			public const int transition_layout_save = 2131230899;
+			public const int topPanel = 2131230899;
 			
 			// aapt resource value: 0x7F0800B4
-			public const int transition_position = 2131230900;
+			public const int touch_outside = 2131230900;
 			
 			// aapt resource value: 0x7F0800B5
-			public const int transition_scene_layoutid_cache = 2131230901;
+			public const int transition_current_scene = 2131230901;
 			
 			// aapt resource value: 0x7F0800B6
-			public const int transition_transform = 2131230902;
+			public const int transition_layout_save = 2131230902;
 			
 			// aapt resource value: 0x7F0800B7
-			public const int uniform = 2131230903;
+			public const int transition_position = 2131230903;
 			
 			// aapt resource value: 0x7F0800B8
-			public const int unlabeled = 2131230904;
+			public const int transition_scene_layoutid_cache = 2131230904;
 			
 			// aapt resource value: 0x7F0800B9
-			public const int up = 2131230905;
+			public const int transition_transform = 2131230905;
 			
 			// aapt resource value: 0x7F0800BA
-			public const int useLogo = 2131230906;
+			public const int uniform = 2131230906;
 			
 			// aapt resource value: 0x7F0800BB
-			public const int view_offset_helper = 2131230907;
+			public const int unlabeled = 2131230907;
 			
 			// aapt resource value: 0x7F0800BC
-			public const int visible = 2131230908;
+			public const int up = 2131230908;
 			
 			// aapt resource value: 0x7F0800BD
-			public const int withText = 2131230909;
+			public const int useLogo = 2131230909;
 			
 			// aapt resource value: 0x7F0800BE
-			public const int wrap_content = 2131230910;
+			public const int view_offset_helper = 2131230910;
+			
+			// aapt resource value: 0x7F0800BF
+			public const int visible = 2131230911;
+			
+			// aapt resource value: 0x7F0800C0
+			public const int withText = 2131230912;
+			
+			// aapt resource value: 0x7F0800C1
+			public const int wrap_content = 2131230913;
 			
 			static Id()
 			{
@@ -4057,6 +4087,9 @@ namespace DerehHaJudo_Android
 			// aapt resource value: 0x7F0B0038
 			public const int support_simple_spinner_dropdown_item = 2131427384;
 			
+			// aapt resource value: 0x7F0B0039
+			public const int toast_layout = 2131427385;
+			
 			static Layout()
 			{
 				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
@@ -4259,6 +4292,9 @@ namespace DerehHaJudo_Android
 			
 			// aapt resource value: 0x7F0D0037
 			public const int status_bar_notification_info_overflow = 2131558455;
+			
+			// aapt resource value: 0x7F0D0038
+			public const int toast_message = 2131558456;
 			
 			static String()
 			{

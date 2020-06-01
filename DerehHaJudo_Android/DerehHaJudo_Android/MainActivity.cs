@@ -4,6 +4,15 @@ using Android.Support.V7.App;
 using Android.Runtime;
 using Android.Widget;
 using Android.Graphics;
+using System.Collections.Generic;
+using ES.DMoral.ToastyLib;
+using Android.Telephony;
+using System.Threading.Tasks;
+using Android;
+using Android.Content;
+using System;
+using Android.Icu.Text;
+using Org.Apache.Http.Impl.Client;
 
 namespace DerehHaJudo_Android
 {
@@ -15,17 +24,107 @@ namespace DerehHaJudo_Android
             base.OnCreate(savedInstanceState);
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             SetContentView(Resource.Layout.activity_main);
+            TryToGetPermissions();
+            sp = this.GetSharedPreferences("details", FileCreationMode.Private);
+            trainers.Add("בחר מאמן");
+            trainers.Add("עידו");
+            trainers.Add("נועם");
+            trainers.Add("נתי");
+            trainers.Add("יוליה");
+            BuildScreen();
         }
+        #region RuntimePermissions
+
+        async Task TryToGetPermissions()
+        {
+            if ((int)Build.VERSION.SdkInt >= 23)
+            {
+                await GetPermissionsAsync();
+                return;
+            }
+
+        }
+        const int RequestLocationId = 0;
+
+        readonly string[] PermissionsGroupLocation =
+            {
+                            //TODO add more permissions
+                            Manifest.Permission.SendSms,
+                            Manifest.Permission.WriteSms,
+             };
+        async Task GetPermissionsAsync()
+        {
+            const string permission = Manifest.Permission.AccessFineLocation;
+
+            if (CheckSelfPermission(permission) == (int)Android.Content.PM.Permission.Granted)
+            {
+                //TODO change the message to show the permissions name
+                Toast.MakeText(this, "SMS permissions granted", ToastLength.Short).Show();
+                return;
+            }
+            if (ShouldShowRequestPermissionRationale(permission))
+            {
+                //set alert for executing the task
+                Android.App.AlertDialog.Builder alert = new Android.App.AlertDialog.Builder(this);
+                alert.SetTitle("Permissions Needed");
+                alert.SetMessage("The application need SMS permissions to continue");
+                alert.SetPositiveButton("Request Permissions", (senderAlert, args) =>
+                {
+                    RequestPermissions(PermissionsGroupLocation, RequestLocationId);
+                });
+                alert.SetNegativeButton("Cancel", (senderAlert, args) =>
+                {
+                    Toast.MakeText(this, "Cancelled!", ToastLength.Short).Show();
+                });
+                Dialog dialog = alert.Create();
+                dialog.Show();
+                return;
+            }
+            RequestPermissions(PermissionsGroupLocation, RequestLocationId);
+        }
+        public override async void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
+        {
+            switch (requestCode)
+            {
+                case RequestLocationId:
+                    {
+                        if (grantResults[0] == (int)Android.Content.PM.Permission.Granted)
+                        {
+                            Toast.MakeText(this, "SMS permissions granted", ToastLength.Short).Show();
+
+                        }
+                        else
+                        {
+                            //Permission Denied :(
+                            Toast.MakeText(this, "SMS permissions denied", ToastLength.Short).Show();
+
+                        }
+                    }
+                    break;
+            }
+            //base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+        //https://github.com/egarim/XamarinAndroidSnippets/blob/master/XamarinAndroidRuntimePermissions
+        #endregion
+        List<string> trainers = new List<string>();
+        
         LinearLayout.LayoutParams WrapContParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WrapContent, LinearLayout.LayoutParams.WrapContent);
-        LinearLayout.LayoutParams LP1 = new LinearLayout.LayoutParams(400, 250);
-        LinearLayout OAlayout, TitleLayout, NameLayout, IDLayout, AGUDALayout, CB1Layout, CB2Layout, CB3Layout, SpinnerLayout, SendButtonLayout;
-        TextView TitleTV, NameTV, IDTV, AGUDATV, CB1TV, CB2TV, CB3TV;
+        LinearLayout.LayoutParams LP1 = new LinearLayout.LayoutParams(800, 350, 1);
+        LinearLayout OAlayout, TitleLayout, NameLayout, IDLayout, AGUDALayout, CBLayout, SpinnerLayout, SendButtonLayout;
+        TextView TitleTV, NameTV, IDTV, AGUDATV;
         EditText NameET, IDET, AGUDAET;
-        CheckBox CB1, CB2, CB3;
+        CheckBox CB1, CB2;
         Button SendButton;
+        Spinner TrainersSpinner;
+        Color mYellow = Color.ParseColor("#f9f39a");
+        Color MBlue1 = Color.ParseColor("#2c3c6d");
+        Color MBlue2 = Color.ParseColor("#656584");
+        Color MBlue3 = Color.ParseColor("#9f989a");
+        ISharedPreferences sp; 
         private void BuildScreen()
         {
             OAlayout = FindViewById<LinearLayout>(Resource.Id.MainPageLayout);
+            OAlayout.SetBackgroundColor(mYellow);
             //
             TitleLayout = new LinearLayout(this)
             {
@@ -36,16 +135,272 @@ namespace DerehHaJudo_Android
             TitleTV = new TextView(this)
             {
                 Text = "הצהרת בריאות",
+                TextSize = 55,
                 LayoutParameters = LP1,
             };
-            TitleTV.SetTextColor(Color.ParseColor("#FF6A00"));
-            TitleLayout.AddView(TitleTV);
+            TitleTV.SetTextColor(MBlue1);
             //
+            TitleLayout.AddView(TitleTV);
+            //======================================================================
+            //======================================================================
             NameLayout = new LinearLayout(this)
             {
                 LayoutParameters = WrapContParams,
                 Orientation = Orientation.Horizontal,
             };
+            //
+            NameTV = new TextView(this)
+            {
+                Text = "שם הספורטאי: ",
+                LayoutParameters = LP1,
+                TextSize = 30,
+            };
+            NameTV.SetTextColor(MBlue2);
+            //
+            NameET = new EditText(this)
+            {
+                LayoutParameters = LP1,
+                Hint = "שם + שם משפחה",
+                Text = sp.GetString("Name", ""),
+                TextSize = 30,
+                TextDirection = Android.Views.TextDirection.Rtl,
+            };
+            NameET.SetTextColor(Color.Black);
+            //
+            NameLayout.AddView(NameET);
+            NameLayout.AddView(NameTV);
+            //======================================================================
+            //======================================================================
+            IDLayout = new LinearLayout(this)
+            {
+                LayoutParameters = WrapContParams,
+                Orientation = Orientation.Horizontal,
+            };
+            //
+            IDTV= new TextView(this)
+            {
+                Text = "ת.ז הספורטאי: ",
+                LayoutParameters = LP1,
+                TextSize = 30,
+            };
+            IDTV.SetTextColor(MBlue2);
+            //
+            IDET = new EditText(this)
+            {
+                LayoutParameters = LP1,
+                Hint = "ת.ז",
+                Text = sp.GetString("ID", ""),
+                TextSize = 30,
+
+            };
+            IDET.SetTextColor(Color.Black);
+            //
+            IDLayout.AddView(IDET);
+            IDLayout.AddView(IDTV);
+            //======================================================================
+            //======================================================================
+            AGUDALayout = new LinearLayout(this)
+            {
+                LayoutParameters = WrapContParams,
+                Orientation = Orientation.Horizontal,
+            };
+            //
+            AGUDATV = new TextView(this)
+            {
+                Text = "אגודת הספורטאי: ",
+                LayoutParameters = LP1,
+                TextSize = 30,
+            };
+            AGUDATV.SetTextColor(MBlue2);
+            //
+            AGUDAET = new EditText(this)
+            {
+                LayoutParameters = LP1,
+                Hint = "אגודה",
+                Text = sp.GetString("AGUDA", ""),
+                TextSize = 30,
+                TextDirection = Android.Views.TextDirection.Rtl,
+            };
+            AGUDAET.SetTextColor(Color.Black);
+            //
+            AGUDALayout.AddView(AGUDAET);
+            AGUDALayout.AddView(AGUDATV);
+            //======================================================================
+            //======================================================================
+            CBLayout = new LinearLayout(this)
+            {
+                LayoutParameters = WrapContParams,
+                Orientation = Orientation.Vertical,
+            };
+            //
+            CB1 = new CheckBox(this)
+            {
+                Text = "אני מצהיר/ה כי ערכתי היום בדיקה למדידת חום גוף, בה נמצא כי חום גופי אינו עולה על 38 מעלות צלזיוס",
+                TextSize = 20,
+                TextDirection = Android.Views.TextDirection.Rtl,
+            };
+            CB1.SetTextColor(MBlue3);
+            //
+            CB2 = new CheckBox(this)
+            {
+                Text = "אני מצהיר/ה כי איני משתעל/ת וכן כי אין לי קשיים בנשימה.",
+                TextSize = 20,
+                TextDirection = Android.Views.TextDirection.Rtl,
+            };
+            CB2.SetTextColor(MBlue3);
+            CBLayout.AddView(CB1);
+            CBLayout.AddView(CB2);
+            //======================================================================
+            //======================================================================
+            SpinnerLayout = new LinearLayout(this)
+            {
+                LayoutParameters = WrapContParams,
+                Orientation = Orientation.Horizontal
+            };
+            //
+            var adapter = new ArrayAdapter<String>(this, Android.Resource.Layout.SimpleSpinnerItem, trainers);
+            adapter.SetDropDownViewResource(Android.Resource.Layout.SimpleSpinnerDropDownItem);
+            TrainersSpinner = new Spinner(this)
+            {
+                Adapter = adapter,
+                LayoutParameters = new Android.Views.ViewGroup.LayoutParams(350, 220),
+            };
+            TrainersSpinner.SetBackgroundColor(Color.White);
+            TrainersSpinner.Adapter = adapter;
+            TrainersSpinner.ItemSelected += new EventHandler<AdapterView.ItemSelectedEventArgs>(TrainersSpinner_ItemSelected);
+            SpinnerLayout.AddView(TrainersSpinner);
+            //======================================================================
+            //======================================================================
+            SendButtonLayout = new LinearLayout(this)
+            {
+                LayoutParameters = WrapContParams,
+                Orientation = Orientation.Vertical,
+            };
+            SendButton = new Button(this)
+            {
+                Text = "שליחה",
+                TextSize = 40,
+            };
+            SendButton.SetBackgroundColor(mYellow);
+            SendButton.SetTextColor(MBlue1);
+            SendButton.Click += this.SendButton_Click;
+            //
+            SendButtonLayout.AddView(SendButton);
+            //======================================================================
+            //======================================================================
+            OAlayout.AddView(TitleLayout);
+            OAlayout.AddView(NameLayout);
+            OAlayout.AddView(IDLayout);
+            OAlayout.AddView(AGUDALayout);
+            OAlayout.AddView(CBLayout);
+            OAlayout.AddView(SpinnerLayout);
+            OAlayout.AddView(SendButtonLayout);
+        }
+
+        private void TrainersSpinner_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
+        {
+            Spinner spin = (Spinner)sender;
+            currTrainer = spin.GetItemAtPosition(e.Position).ToString();
+        }
+
+        string currTrainer;
+        private void SendButton_Click(object sender, System.EventArgs e)
+        {
+            string number = "000";
+            bool c = true;
+            switch (currTrainer)
+            {
+                case "עידו":
+                    number = "0542077344";
+                    break;
+                case "נועם":
+                    number = "0546544244";
+                    break;
+                case "נתי":
+                    number = "0547682373";
+                    break;
+                case "יוליה":
+                    number = "0545492383";
+                    break;
+                default:
+                    Toasty.Error(this, "אנא בחר מאמן", 5, false).Show();
+                    c = false;
+                    break;
+            }
+            if (Validinput() && c)
+            {
+                if (!CB1.Checked)
+                {
+                    Toasty.Error(this, "אנא סמן ווי בשתי בתיבות", 5, false).Show();
+                }
+                else if (!CB2.Checked)
+                {
+                    Toasty.Error(this, "אנא סמן ווי בשתי בתיבות", 5, false).Show();
+                }
+                else
+                {
+                    List<string> ts = new List<string>();
+                    ts.Add("שם: " + NameET.Text);
+                    ts.Add("\nת.ז: " + IDET.Text);
+                    ts.Add("\nאגודה: " + AGUDAET.Text);
+                    ts.Add("\nמצהיר כי ערכתי היום בדיקה למדידת חום גוף, בה נמצא כי חום גופי אינו עולה על 38 מעלות צלזיוס");
+                    ts.Add("\nוכי איני משתעל/ת וכן כי אין לי קשיים בנשימה");
+                    string toSend = "";
+                    for (int i = 0; i<ts.Count; i++)
+                    {
+                        toSend += ts[i];
+                    }
+                    SmsManager.Default.SendMultimediaMessage(this, null, toSend, null, null);
+                    var editor = sp.Edit();
+                    editor.PutString("Name", NameET.Text);
+                    editor.PutString("ID", IDET.Text);
+                    editor.PutString("AGUDA", AGUDAET.Text);
+                    editor.Commit();
+                    Toasty.Success(this, "הצהרה נשלחה בהצלחה", 5, true).Show();
+                }
+            }
+        }
+        public bool Validinput()
+        {
+           if (NameET.Text == "")
+            {
+                Toasty.Error(this, "שם ריק", 3, true).Show();
+                return false;
+            }
+           if (IDET.Text == "")
+            {
+                Toasty.Error(this, "ת.ז ריק", 3, true).Show();
+                return false;
+            }
+           if (AGUDAET.Text == "")
+            {
+                Toasty.Error(this, "אגודה ריקה", 3, true).Show();
+                return false;
+            }
+            return (IsValidName(NameET.Text) && IsValidID(IDET.Text));
+
+        }
+        public bool IsValidName(string name)
+        {
+            bool Tr = true;
+            Tr = name.Length >= 4;
+            if (!Tr)
+            {
+                Toasty.Error(this, "שגיאה בשם", 5, true).Show();
+                return false;
+            }
+            else
+                return Tr;
+        }
+        public bool IsValidID(string id)
+        {
+            if (id.Length != 9)
+            {
+                Toasty.Error(this, "ת.ז שגוי", 5, true).Show();
+                return false;
+            }
+            else
+                return true;
         }
     }
 }
