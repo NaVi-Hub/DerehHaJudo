@@ -18,6 +18,8 @@ using System.Linq;
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
+using Firebase;
+using Firebase.Firestore;
 
 namespace DerehHaJudo_Android
 {
