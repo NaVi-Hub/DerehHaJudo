@@ -15,21 +15,17 @@ using Android.Icu.Text;
 using Org.Apache.Http.Impl.Client;
 using Android.Views;
 using System.Linq;
-<<<<<<< HEAD
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
 using Firebase;
 using Firebase.Firestore;
-=======
->>>>>>> parent of a58e8d1... wroking v1.2 no service + packages
 
 namespace DerehHaJudo_Android
 {
     [Activity(Label = "@string/app_name", Theme = "@style/AppTheme", MainLauncher = true)]
     public class MainActivity : Activity
     {
-<<<<<<< HEAD
         public FirebaseFirestore GetDataBase()
         {
             FirebaseFirestore database;
@@ -44,10 +40,10 @@ namespace DerehHaJudo_Android
             database = FirebaseFirestore.GetInstance(app);
             return database;
         }
-=======
->>>>>>> parent of a58e8d1... wroking v1.2 no service + packages
         protected override void OnCreate(Bundle savedInstanceState)
         {
+            AppCenter.Start("8a54b3ee-bc50-4177-a6ce-57a95d92e026",
+                   typeof(Analytics), typeof(Crashes));
             base.OnCreate(savedInstanceState);
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             SetContentView(Resource.Layout.activity_main);
