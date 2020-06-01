@@ -30,11 +30,11 @@ namespace DerehHaJudo_Android
         {
             FirebaseFirestore database;
             var options = new FirebaseOptions.Builder()
-                .SetProjectId("mylittleclubproject")
-                .SetApplicationId("mylittleclubproject")
-                .SetApiKey("AIzaSyDG3jgrxvbvW8pwKZRPXjsm1EHNAkM_k5U")
-                .SetDatabaseUrl("https://mylittleclubproject.firebaseio.com")
-                .SetStorageBucket("mylittleclubproject.appspot.com")
+                .SetProjectId("DerehHaJudoProject")
+                .SetApplicationId("DerehHaJudoProject")
+                .SetApiKey("AIzaSyB3IpZK3q4LSM4_0IZdlhqHnqn8epiN--Y")
+                .SetDatabaseUrl("https://derehhajudo2020.firebaseio.com")
+                .SetStorageBucket("derehhajudo2020.appspot.com")
                 .Build();
             var app = FirebaseApp.InitializeApp(this, options);
             database = FirebaseFirestore.GetInstance(app);
@@ -56,6 +56,7 @@ namespace DerehHaJudo_Android
             trainers.Add("יוליה");
             trainers.Add("אורי");
             BuildScreen();
+            database = GetDataBase();
         }
         #region RuntimePermissions
 
@@ -131,7 +132,7 @@ namespace DerehHaJudo_Android
         //https://github.com/egarim/XamarinAndroidSnippets/blob/master/XamarinAndroidRuntimePermissions
         #endregion
         List<string> trainers = new List<string>();
-        
+        FirebaseFirestore database;
         LinearLayout.LayoutParams WrapContParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WrapContent, LinearLayout.LayoutParams.WrapContent);
         LinearLayout.LayoutParams LP1 = new LinearLayout.LayoutParams(800, 350, 1);
         LinearLayout OAlayout, TitleLayout, NameLayout, IDLayout, AGUDALayout, CBLayout, SpinnerLayout, SendButtonLayout;
