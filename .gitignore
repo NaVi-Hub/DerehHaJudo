@@ -1,0 +1,9 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/DerehHaJudo_Android/DerehHaJudo_Android/obj
+/DerehHaJudo_Android/.vs/DerehHaJudo_Android/v16
+/DerehHaJudo_IOS/.vs/DerehHaJudo_IOS/v16
+/DerehHaJudo_IOS/DerehHaJudo_IOS/obj
+/DerehHaJudo_IOS
