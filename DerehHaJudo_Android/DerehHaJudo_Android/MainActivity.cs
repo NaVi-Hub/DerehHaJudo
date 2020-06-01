@@ -20,10 +20,13 @@ using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
 <<<<<<< HEAD
+<<<<<<< HEAD
 using Firebase;
 using Firebase.Firestore;
 =======
 >>>>>>> parent of a58e8d1... wroking v1.2 no service + packages
+=======
+>>>>>>> parent of 8c95285... + firebase + firestore + NuGer
 =======
 >>>>>>> parent of 8c95285... + firebase + firestore + NuGer
 
