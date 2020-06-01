@@ -121,6 +121,9 @@
       <Version>28.0.0.1</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Essentials" Version="1.1.0" />
+    <PackageReference Include="Xamarin.Firebase.Firestore">
+      <Version>60.1142.1</Version>
+    </PackageReference>
     <PackageReference Include="Xamarin.Google.Guava">
       <Version>27.1.0.1</Version>
     </PackageReference>
